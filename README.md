@@ -3,8 +3,6 @@
 http://47.98.252.1:7000/arina
 
 以下内容摘自我的博客
-
-
 ---
 title: QQ聊天机器人
 date: 2020-05-30 09:39:14
@@ -454,13 +452,24 @@ public class Weather {
 }
 ```
 
+### 用Spring监听cqhttp上报的事件
+
+之前我用socket监听cqhttp的事件，但是bug很多，有一些是我百思不得其解的，后来觉得用Spring 是个好主意，果然用Spring之后就没什么问题了，Spring 天下无敌啊。
+
+具体做法是编写一个Controller，监听根路径的所有post事件（`@PostMapping("/")`），从Spring传入的HTTPServletRequest中读取事件信息，并利用HTTPServletResponse作出回应。
+
+```java
+@Controller
+public class MyController {
+@PostMapping("/")
+    public void handle(HttpServletRequest request, HttpServletResponse response){
+        ......
+    }
+```
+
 ### 疫情数据查询
 
 疫情数据查询时由用户主动发起的事件，所以我们需要知道用户发送了什么。cqhttp插件会将所有的事件上报到指定的端口，我们可以通过监听端口来获得事件的内容。
-
-之前我用socket监听cqhttp的事件，但是bug很多，有一些是我百思不得其解的，后来觉得用spring 是个好主意，用spring之后就没什么问题了。
-
-具体做法是编写一个Controller，监听根路径的所有post事件（`@PostMapping("/")`），并作出回应。
 
 首先我们需要从用户发送的消息中判断所要查询的地区。
 
@@ -535,6 +544,40 @@ public void getCovidData(HttpServletResponse response, Post post) throws URISynt
 }
 ```
 
+### 复读
+
+思路是判断用户发送的消息内容，根据消息内容改变类内的repeat变量的值，再根据repeat的值决定复读与否。
+
+```java
+@Controller
+public class MyController {
+    private static final Logger log = LoggerFactory.getLogger(MyController.class);
+    private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    private static boolean repeat = false;
+
+    @PostMapping("/")
+    public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException, InterruptedException {
+        log.info("正在获取侦测到的上报信息");
+        Post post = getPost(request);
+        if (repeat) {
+            log.info("进入复读模式");
+            log.info("开始复读");
+            Utils.sendGroupMessage(post.getMessage());
+
+            if (post.getMessage().equals("退出复读模式")) {
+                log.info("退出复读模式");
+                repeat = false;
+            }
+        } else {
+            log.info("进入一般模式");
+            if (post.getMessage().equals("进入复读模式")) {
+                repeat = true;
+            }
+        }
+    }
+}
+```
+
 ## 参考资料
 
 Arina：http://47.98.252.1:7000/arina
@@ -546,4 +589,10 @@ cqhttp官方文档：https://cqhttp.cc/docs/4.15/#/
 通过wine在docker中运行酷q：https://github.com/CoolQ/docker-wine-coolq
 
 图灵机器人：http://www.turingapi.com/
+
+
+
+
+
+## ---------------------未完待续---------------------
 

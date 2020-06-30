@@ -37,9 +37,9 @@ import java.util.Map;
 public class MyController {
     private static final Logger log = LoggerFactory.getLogger(MyController.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    private static boolean repeat = false;
     private final Map<Long, LocalDateTime> map = new HashMap<>();
     private int index = 0;
-    private static boolean repeat = false;
 
     @PostMapping("/")
     public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, URISyntaxException, InterruptedException {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+    <title>Send Message</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+          integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <style>
+        h1, h2 {
+            font-family: Lobster, serif;
+        }
+
+        #hey {
+            width: 20%;
+            height: 20%;
+            border: 4px solid cornflowerblue;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-8"><h1 class="text-center text-primary">Input the message you want to send</h1></div>
+        <div class="col-xs-4"><img class="img-responsive" id="hey" src="hey.png" alt="heyhey"/></div>
+    </div>
+    <form action="#" th:action="@{/message}" th:object="${message}" method="post">
+        <p><input class="form-control" type="text" th:field="*{content}"/></p>
+        <div class="row">
+            <div class="col-xs-6">
+                <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-paper-plane"> Submit</i>
+                </button>
+            </div>
+            <div class="col-xs-6">
+                <button class="btn btn-danger btn-block" type="reset"><i class="fa fa-undo"> Reset</i></button>
+            </div>
+        </div>
+    </form>
+    <h2 class="text-warning text-center" th:if="${message.content}">Send Message Successfully</h2>
+</div>
+</body>
+</html>

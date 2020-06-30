@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "locationId": 971002,
+      "continentName": "北美洲",
+      "continentEnglishName": "North America",
+      "countryName": "美国",
+      "countryEnglishName": "United States of America",
+      "countryFullName": "United States of America",
+      "provinceName": "美国",
+      "provinceEnglishName": "United States of America",
+      "provinceShortName": "美国",
+      "currentConfirmedCount": 1331651,
+      "confirmedCount": 1961187,
+      "suspectedCount": 0,
+      "curedCount": 518522,
+      "deadCount": 111014,
+      "comment": "",
+      "cities": null,
+      "updateTime": 1591710622878
+    }
+  ],
+  "success": true
+}

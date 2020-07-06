@@ -20,18 +20,58 @@ import java.util.List;
 
 @Component
 public class Weather {
-    public String status;
-    public String count;
-    public String info;
-    public String infocode;
-    public List<Live> lives;
     private static final Logger log = LoggerFactory.getLogger(Weather.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    private String status;
+    private String count;
+    private String info;
+    private String infocode;
+    private List<Forecasts> forecasts;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfocode() {
+        return infocode;
+    }
+
+    public void setInfocode(String infocode) {
+        this.infocode = infocode;
+    }
+
+    public List<Forecasts> getForecasts() {
+        return forecasts;
+    }
+
+    public void setForecasts(List<Forecasts> forecasts) {
+        this.forecasts = forecasts;
+    }
 
     public String generateString(HttpClient httpClient) throws IOException, InterruptedException, URISyntaxException {
         log.info("正在通过高德api获取西峰区天气状况，结果将以字符串形式返回给调用函数");
         log.info("构造HttpRequest");
-        String url = "https://restapi.amap.com/v3/weather/weatherInfo?key=b74ab54158c425e0ddbe4db7dce8624b&city=621002";
+        String url = "https://restapi.amap.com/v3/weather/weatherInfo?key=b74ab54158c425e0ddbe4db7dce8624b&city=621002&extensions=all";
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
                 .header("User-Agent", "Java HttpClient")
                 .header("Accept", "*/*")
@@ -52,11 +92,35 @@ public class Weather {
 
 
         log.info("正在准备拼接字符串");
-        Live live = weather.lives.get(0);
-        String result = "今日天气预报来啦~++++播报时间:" + live.reporttime + "++++省份：" + live.province + "++++城市：" + live.city + "++++天气：" + live.weather
-                + "++++温度：" + live.temperature
-                + "++++风向：" + live.winddirection + "++++风力：" + live.windpower + "++++湿度：" + live.humidity;
-        result = result.replaceAll(" ", "+");
+        Forecasts forecasts = weather.forecasts.get(0);
+        Casts today = forecasts.getCasts().get(0);
+        Casts tomorrow = forecasts.getCasts().get(1);
+        String result = String.format("天气预报来啦~\n" +
+                        "城市：%s\n" +
+                        "播报时间：%s\n" +
+                        "今日~\n" +
+                        "日期：%s\n" +
+                        "白天天气：%s\n" +
+                        "夜间天气：%s\n" +
+                        "白天温度：%s\n" +
+                        "夜间温度：%s\n" +
+                        "白天风向：%s\n" +
+                        "夜间风向：%s\n" +
+                        "风力：%s\n" +
+                        "\n" +
+                        "明日~\n" +
+                        "日期：%s\n" +
+                        "白天天气：%s\n" +
+                        "夜间天气：%s\n" +
+                        "白天温度：%s\n" +
+                        "夜间温度：%s\n" +
+                        "白天风向：%s\n" +
+                        "夜间风向：%s\n" +
+                        "风力：%s",
+                forecasts.getProvince() + forecasts.getCity(), forecasts.getReporttime().toString(),
+                today.getDate(), today.getDayweather(), today.getNightweather(), today.getDaytemp(), today.getNighttemp(), today.getDaywind(), today.getNightwind(), today.getDaypower(),
+                tomorrow.getDate(), tomorrow.getDayweather(), tomorrow.getNightweather(), tomorrow.getDaytemp(), tomorrow.getNighttemp(), tomorrow.getDaywind(), tomorrow.getNightwind(), tomorrow.getDaypower());
+
         log.info("拼接完毕，结果：{}", result);
         return result;
     }

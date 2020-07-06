@@ -1,0 +1,64 @@
+{
+  "status": "1",
+  "count": "1",
+  "info": "OK",
+  "infocode": "10000",
+  "forecasts": [
+    {
+      "city": "西峰区",
+      "adcode": "621002",
+      "province": "甘肃",
+      "reporttime": "2020-07-06 08:25:39",
+      "casts": [
+        {
+          "date": "2020-07-06",
+          "week": "1",
+          "dayweather": "多云",
+          "nightweather": "阴",
+          "daytemp": "29",
+          "nighttemp": "17",
+          "daywind": "南",
+          "nightwind": "南",
+          "daypower": "≤3",
+          "nightpower": "≤3"
+        },
+        {
+          "date": "2020-07-07",
+          "week": "2",
+          "dayweather": "多云",
+          "nightweather": "多云",
+          "daytemp": "29",
+          "nighttemp": "17",
+          "daywind": "东南",
+          "nightwind": "东南",
+          "daypower": "4",
+          "nightpower": "4"
+        },
+        {
+          "date": "2020-07-08",
+          "week": "3",
+          "dayweather": "多云",
+          "nightweather": "阴",
+          "daytemp": "31",
+          "nighttemp": "18",
+          "daywind": "东南",
+          "nightwind": "东南",
+          "daypower": "≤3",
+          "nightpower": "≤3"
+        },
+        {
+          "date": "2020-07-09",
+          "week": "4",
+          "dayweather": "多云",
+          "nightweather": "多云",
+          "daytemp": "29",
+          "nighttemp": "17",
+          "daywind": "东",
+          "nightwind": "东",
+          "daypower": "4",
+          "nightpower": "4"
+        }
+      ]
+    }
+  ]
+}

@@ -396,7 +396,7 @@ public class Weather {
     public String count;
     public String info;
     public String infocode;
-    public List<Live> lives;
+    public List<Casts> lives;
     private static final Logger log = LoggerFactory.getLogger(Weather.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
 
@@ -424,10 +424,10 @@ public class Weather {
 
 
         log.info("正在准备拼接字符串");
-        Live live = weather.lives.get(0);
-        String result = "今日天气预报来啦~++++播报时间:" + live.reporttime + "++++省份：" + live.province + "++++城市：" + live.city + "++++天气：" + live.weather
-                + "++++温度：" + live.temperature
-                + "++++风向：" + live.winddirection + "++++风力：" + live.windpower + "++++湿度：" + live.humidity;
+        Casts casts = weather.lives.get(0);
+        String result = "今日天气预报来啦~++++播报时间:" + casts.reporttime + "++++省份：" + casts.province + "++++城市：" + casts.city + "++++天气：" + casts.weather
+                + "++++温度：" + casts.temperature
+                + "++++风向：" + casts.winddirection + "++++风力：" + casts.windpower + "++++湿度：" + casts.humidity;
         result = result.replaceAll(" ", "+");
         log.info("拼接完毕，结果：{}", result);
         return result;

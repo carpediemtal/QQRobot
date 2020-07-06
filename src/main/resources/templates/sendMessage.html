@@ -43,7 +43,8 @@
             </div>
         </div>
     </form>
-    <div class="col-6 offset-3 alert alert-success alert-dismissible fade show" id="alert-info" v-if="flag" th:if="${message.content}">
+    <div class="col-6 offset-3 alert alert-success alert-dismissible fade show" id="alert-info" v-if="flag"
+         th:if="${message.content}">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <h2 class="text-warning text-center" th:if="${message.content}">Send Message Successfully</h2>
     </div>

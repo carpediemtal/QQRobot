@@ -1,10 +1,10 @@
 package eternal.fire.springbootrobot.javabean;
 
-public class Reply {
+public class CqHttpReply {
     private String reply;
     private boolean block;
 
-    public Reply(String reply) {
+    public CqHttpReply(String reply) {
         this.reply = reply;
         this.block = true;
     }
@@ -30,7 +30,7 @@ public class Reply {
         this.block = block;
     }
 
-    public Reply(String reply, boolean block) {
+    public CqHttpReply(String reply, boolean block) {
         this.reply = reply;
         this.block = block;
     }

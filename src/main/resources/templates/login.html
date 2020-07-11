@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+          integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@latest/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@latest/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="display-3 text-primary text-center" style="font-family: Lobster, serif">LOGIN</h1>
+    <form method="post" v-on:submit.prevent="submit" id="form">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input v-model="username" type="text" class="form-control" id="username" placeholder="User Name">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input"> Remember me
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el: '#form',
+        data: {
+            username: '',
+            password: ''
+        },
+        methods: {
+            submit: function () {
+                console.log("准备用ajax向服务器发送post请求");
+                axios.post('http://localhost:7000/login', {
+                    username: this.username,
+                    password: this.password
+                }).then(function (res) {
+                    const text = res.request.response;
+                    console.log(text);
+                    const json = JSON.parse(text);
+                    if (json.status === 'ok') {
+                        alert('登陆成功');
+                    } else {
+                        alert('账号或密码错误，请重新输入');
+                    }
+                }).catch(function (error) {
+                    alert(error);
+                });
+            }
+        }
+    });
+</script>
+</html>

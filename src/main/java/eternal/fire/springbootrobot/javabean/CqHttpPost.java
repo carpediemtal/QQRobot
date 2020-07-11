@@ -1,6 +1,6 @@
 package eternal.fire.springbootrobot.javabean;
 
-public class Post {
+public class CqHttpPost {
     private String message;
     private String group_id;
     private long user_id;
@@ -38,11 +38,11 @@ public class Post {
         return message_type;
     }
 
-    public Post() {
+    public CqHttpPost() {
 
     }
 
-    public Post(String message, String group_id, long user_id, String message_type) {
+    public CqHttpPost(String message, String group_id, long user_id, String message_type) {
         this.message = message;
         this.group_id = group_id;
         this.user_id = user_id;

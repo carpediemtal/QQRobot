@@ -7,6 +7,7 @@ http://47.98.252.1:7000/arina
 title: QQ聊天机器人
 date: 2020-05-30 09:39:14
 tags:
+categories: Fun
 
 ---
 
@@ -21,6 +22,8 @@ Name: Arina
 Attribute: 萌妹子
 
 官网：http://47.98.252.1:7000/arina
+
+<!-- more -->
 
 ## 功能：
 
@@ -39,17 +42,17 @@ Attribute: 萌妹子
 
 #### 可以在群里@其他人或者禁言（需要管理员权限）
 
-#### <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gga0s0pwzcj31hc091js7.jpg"/>
+#### <img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrpsbldcj314h0bst9i.jpg"/>
 
 #### 可以通过接口向指定的群手动发送消息
 
-<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gga0uf9r82j31hc087jrw.jpg"/>
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrpbwgbej315h09zt97.jpg"/>
 
 #### 定时天气播报
 
 每天早上8点准时向qq群播送今日天气状况，误差小于2秒。
 
-<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gfa8s8hx0qj30lp040t8t.jpg"/>
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrqpxet3j30kw0mvjs5.jpg"/>
 
 #### 定时晚安
 
@@ -57,7 +60,7 @@ Attribute: 萌妹子
 
 <img src="http://ww1.sinaimg.cn/large/005VT09Qly1gfa8t1l9j5j30k20powg8.jpg"/>
 
-<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gfa8vix9lxj30e402f0sm.jpg"/>
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrr7lvmvj30eh03gt8m.jpg"/>
 
 
 
@@ -79,9 +82,13 @@ Attribute: 萌妹子
 
 Arina会重复你说的话。
 
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrsncyjjj30cg0ixtaf.jpg"/>
+
 #### Arina的个人页面
 
-<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gga146vip3j31hb0g23z2.jpg"/>
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrtglt2rj31hc0u0aco.jpg"/>
+
+现在页面还很简陋，功能也比较少，以后会添加更多有意思的功能。
 
 ## 需要的技能或工具：
 
@@ -110,7 +117,9 @@ Arina会重复你说的话。
 
 ## 本fw使用的开发平台：
 
-全宇宙第一的Intellij IDEA 2020
+- 全宇宙第一的Intellij IDEA 2020
+
+- Edge浏览器
 
 ~~还有好多作业没做，等我做完在更（逃~~
 
@@ -158,6 +167,18 @@ Arina需要在一个24小时不关机的电脑上运行，如果愿意自己的�
 
 使用cqhttp，可以手动给酷q安装插件，也可以用作者预先配置好的镜像直接运行docker。这部分内容请参考cqhttp的官方文档：https://cqhttp.cc/docs/4.15/#/。
 
+注意留心cqhttp插件上报事件的端口。
+
+### API
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjs1i133ij30xm0nq76j.jpg"/>
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjs27mwbdj30xl0nbgnk.jpg"/>
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjs2x2llsj30x50i63zf.jpg"/>
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjs2x2llsj30x50i63zf.jpg"/>
+
 ### 发送qq消息
 
 cqhttp插件可以监听指定端口的事件，我们需要根据想要发送的内容拼接url，向服务器的指定端口发送get请求。
@@ -180,7 +201,7 @@ public class Utils {
 
     public static void sendGroupMessage(String message) throws URISyntaxException, IOException, InterruptedException {
         log.info("正准备构造HttpRequest");
-        String url = String.format("http://47.98.252.1:5700/send_group_msg?group_id=549594617&message=%s", message.replace(" ", "%20"));// main:549594617 测试群：851736129
+        String url = String.format("http://47.98.252.1:5700/send_group_msg?group_id=549594617&message=%s", message.replace(" ", "%20").replace("\n", "%0a"));// main:549594617 测试群：851736129
         log.info("构造好的url：{}", url);
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
                 .header("User-Agent", "Java HttpClient")
@@ -196,7 +217,9 @@ public class Utils {
 }
 ```
 
-url中，group_id参数是群号或者qq号，message参数是想要发送的内容。上面是用java编写的构造url并利用httpClient向服务器的5700端口发送get请求的代码。
+url中，group_id参数是群号或者qq号，message参数是想要发送的内容。上面是用java编写的构造url并利用httpClient向服务器的5700（端口取决于自己的设置）端口发送get请求的代码。
+
+拼接url参数的时候，注意空格、换行符以及特殊字符的转义，比如空格在url里是%20，换行符在url里是%0a，否则会出现异常（比如发送的内容不能含有空格）。
 
 注意服务器的安全组策略，需要开放指定的端口才行（我这儿是5700）。
 
@@ -369,6 +392,8 @@ public class GoodNight {
 
 得到java bean之后，就可以定时发送天气情况了。
 
+#### 旧版本代码
+
 ```java
 package eternal.fire.springbootrobot.weather;
 
@@ -396,7 +421,7 @@ public class Weather {
     public String count;
     public String info;
     public String infocode;
-    public List<Casts> lives;
+    public List<Live> lives;
     private static final Logger log = LoggerFactory.getLogger(Weather.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
 
@@ -424,10 +449,10 @@ public class Weather {
 
 
         log.info("正在准备拼接字符串");
-        Casts casts = weather.lives.get(0);
-        String result = "今日天气预报来啦~++++播报时间:" + casts.reporttime + "++++省份：" + casts.province + "++++城市：" + casts.city + "++++天气：" + casts.weather
-                + "++++温度：" + casts.temperature
-                + "++++风向：" + casts.winddirection + "++++风力：" + casts.windpower + "++++湿度：" + casts.humidity;
+        Live live = weather.lives.get(0);
+        String result = "今日天气预报来啦~++++播报时间:" + live.reporttime + "++++省份：" + live.province + "++++城市：" + live.city + "++++天气：" + live.weather
+                + "++++温度：" + live.temperature
+                + "++++风向：" + live.winddirection + "++++风力：" + live.windpower + "++++湿度：" + live.humidity;
         result = result.replaceAll(" ", "+");
         log.info("拼接完毕，结果：{}", result);
         return result;
@@ -452,16 +477,177 @@ public class Weather {
 }
 ```
 
+#### 新版本代码
+
+```java
+package eternal.fire.springbootrobot.weather;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import eternal.fire.springbootrobot.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Component
+public class Weather {
+    private static final Logger log = LoggerFactory.getLogger(Weather.class);
+    private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    private String status;
+    private String count;
+    private String info;
+    private String infocode;
+    private List<Forecasts> forecasts;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getInfocode() {
+        return infocode;
+    }
+
+    public void setInfocode(String infocode) {
+        this.infocode = infocode;
+    }
+
+    public List<Forecasts> getForecasts() {
+        return forecasts;
+    }
+
+    public void setForecasts(List<Forecasts> forecasts) {
+        this.forecasts = forecasts;
+    }
+
+    public String generateString(HttpClient httpClient) throws IOException, InterruptedException, URISyntaxException {
+        log.info("正在通过高德api获取西峰区天气状况，结果将以字符串形式返回给调用函数");
+        log.info("构造HttpRequest");
+        String url = "https://restapi.amap.com/v3/weather/weatherInfo?key=b74ab54158c425e0ddbe4db7dce8624b&city=621002&extensions=all";
+        HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
+                .header("User-Agent", "Java HttpClient")
+                .header("Accept", "*/*")
+                .timeout(Duration.ofSeconds(5))
+                .version(HttpClient.Version.HTTP_2)
+                .build();
+
+
+        log.info("正在通过http client发送构造好的HttpRequest，并获得天气查询结果");
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+
+        log.info("正在将查询到的天气json转化为Java Bean");
+        String json = httpResponse.body();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Weather weather = mapper.readValue(json, Weather.class);
+
+
+        log.info("正在准备拼接字符串");
+        Forecasts forecasts = weather.forecasts.get(0);
+        Casts today = forecasts.getCasts().get(0);
+        Casts tomorrow = forecasts.getCasts().get(1);
+        String result = String.format("天气预报来啦~\n" +
+                        "城市：%s\n" +
+                        "播报时间：%s\n" +
+                        "今日~\n" +
+                        "日期：%s\n" +
+                        "白天天气：%s\n" +
+                        "夜间天气：%s\n" +
+                        "白天温度：%s\n" +
+                        "夜间温度：%s\n" +
+                        "白天风向：%s\n" +
+                        "夜间风向：%s\n" +
+                        "风力：%s\n" +
+                        "\n" +
+                        "明日~\n" +
+                        "日期：%s\n" +
+                        "白天天气：%s\n" +
+                        "夜间天气：%s\n" +
+                        "白天温度：%s\n" +
+                        "夜间温度：%s\n" +
+                        "白天风向：%s\n" +
+                        "夜间风向：%s\n" +
+                        "风力：%s",
+                forecasts.getProvince() + forecasts.getCity(), forecasts.getReporttime().toString(),
+                today.getDate(), today.getDayweather(), today.getNightweather(), today.getDaytemp(), today.getNighttemp(), today.getDaywind(), today.getNightwind(), today.getDaypower(),
+                tomorrow.getDate(), tomorrow.getDayweather(), tomorrow.getNightweather(), tomorrow.getDaytemp(), tomorrow.getNighttemp(), tomorrow.getDaywind(), tomorrow.getNightwind(), tomorrow.getDaypower());
+
+        log.info("拼接完毕，结果：{}", result);
+        return result;
+    }
+
+    public void broadcastWeather() throws InterruptedException, IOException, URISyntaxException {
+        log.info("正准备向群里播报天气");
+        log.info("获得天气状况（字符串）");
+        String result = generateString(httpClient);
+        Utils.sendGroupMessage(result);
+        log.info("播报完毕");
+    }
+
+    @Scheduled(fixedRate = 1000)
+    public void broadcast() throws InterruptedException, IOException, URISyntaxException {
+        LocalDateTime now = LocalDateTime.now();
+        if (now.getHour() == 8 && now.getMinute() == 0 && now.getSecond() == 0) {
+            log.info("早上八点整，正准备播报天气");
+            broadcastWeather();
+        }
+    }
+}
+```
+
+#### 新旧版本对比
+
+旧版本
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1gfa8s8hx0qj30lp040t8t.jpg">
+
+新版本
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrqpxet3j30kw0mvjs5.jpg"/>
+
 ### 用Spring监听cqhttp上报的事件
 
 之前我用socket监听cqhttp的事件，但是bug很多，有一些是我百思不得其解的，后来觉得用Spring 是个好主意，果然用Spring之后就没什么问题了，Spring 天下无敌啊。
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjs81bdm5j30h00ahwf4.jpg"/>
 
 具体做法是编写一个Controller，监听根路径的所有post事件（`@PostMapping("/")`），从Spring传入的HTTPServletRequest中读取事件信息，并利用HTTPServletResponse作出回应。
 
 ```java
 @Controller
 public class MyController {
-@PostMapping("/")
+	@PostMapping("/")
     public void handle(HttpServletRequest request, HttpServletResponse response){
         ......
     }
@@ -507,6 +693,10 @@ public class Result {
 ```
 
 最后将json转为java bean并回复消息（这里利用了cqhttp的快速回复功能，跟之前的发送方式有所不同）。
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjsa2hxbvj30xd0nkdhh.jpg"/>
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjsaggqloj30wl0fpwg1.jpg"/>
 
 ```java
 public void getCovidData(HttpServletResponse response, Post post) throws URISyntaxException, IOException, InterruptedException {

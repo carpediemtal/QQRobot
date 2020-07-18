@@ -10,7 +10,7 @@
     </parent>
     <groupId>eternal.fire</groupId>
     <artifactId>spring-boot-robot</artifactId>
-    <version>2.4.2-SNAPSHOT</version>
+    <version>2.4.3-SNAPSHOT</version>
     <name>spring-boot-robot</name>
     <description>Demo project for Spring Boot</description>
 
@@ -55,6 +55,15 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <!--表示包括任意文件夹下的任意文件，target里才会有目标文件-->
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>

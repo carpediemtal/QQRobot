@@ -59,6 +59,6 @@ public class Hitokoto {
 
     @Override
     public String toString() {
-        return String.format("\"%s\"————%s", hitokoto, from);
+        return String.format("%s ————%s", hitokoto, from);
     }
 }

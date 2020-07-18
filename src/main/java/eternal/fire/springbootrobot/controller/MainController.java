@@ -1,10 +1,14 @@
-package eternal.fire.springbootrobot;
+package eternal.fire.springbootrobot.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eternal.fire.springbootrobot.RainbowFart;
+import eternal.fire.springbootrobot.Utils;
 import eternal.fire.springbootrobot.covid19.CovidData;
 import eternal.fire.springbootrobot.javabean.CqHttpPost;
 import eternal.fire.springbootrobot.javabean.CqHttpReply;
+import eternal.fire.springbootrobot.javabean.Hitokoto;
+import eternal.fire.springbootrobot.javabean.PoisonousChickenSoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -51,7 +55,17 @@ public class MainController {
                 log.info("获取疫情数据");
                 getCovidData(response, post);
             } else if (post.getMessage().equals("进入复读模式")) {
+                log.info("修改isRepeat的值");
                 isRepeat = true;
+            } else if (post.getMessage().equals("夸我")) {
+                log.info("开始彩虹屁");
+                replyCqHttp(response, RainbowFart.getRainbowFart());
+            } else if (post.getMessage().equals("一言")) {
+                log.info("开始一言");
+                replyCqHttp(response, Hitokoto.getContent());
+            } else if (post.getMessage().endsWith("毒鸡汤")) {
+                log.info("开始毒鸡汤");
+                replyCqHttp(response, PoisonousChickenSoup.getSoup());
             }
         }
     }

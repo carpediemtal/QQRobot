@@ -61,12 +61,23 @@ public class MainController {
             } else if (post.getMessage().equals("进入复读模式")) {
                 log.info("修改isRepeat的值");
                 isRepeat = true;
-            } else if (post.getMessage().equals("夸我")) {
+            } else if (post.getMessage().startsWith("夸")) {
                 log.info("开始彩虹屁");
-                replyCqHttp(response, RainbowFart.getRainbowFart());
-            } else if (post.getMessage().equals("骂我")) {
+                if (post.getMessage().equals("夸我")) {
+                    replyCqHttp(response, RainbowFart.getRainbowFart());
+                } else {
+                    String name = post.getMessage().substring(1);
+                    log.info("要夸的人是{}", name);
+                    replyCqHttp(response, RainbowFart.getRainbowFart().replace("你", name).replace("您", name));
+                }
+            } else if (post.getMessage().startsWith("骂")) {
                 log.info("开始nmsl");
-                replyCqHttp(response, Nmsl.getContent());
+                if (post.getMessage().equals("骂我")) {
+                    replyCqHttp(response, Nmsl.getContent());
+                } else {
+                    String name = post.getMessage().substring(1);
+                    replyCqHttp(response, Nmsl.getContent().replace("您", name).replace("你", name));
+                }
             } else if (post.getMessage().equals("一言")) {
                 log.info("开始一言");
                 replyCqHttp(response, Hitokoto.getContent());

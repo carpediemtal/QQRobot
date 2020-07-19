@@ -2,6 +2,7 @@ package eternal.fire.springbootrobot.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eternal.fire.springbootrobot.Learn;
 import eternal.fire.springbootrobot.Nmsl;
 import eternal.fire.springbootrobot.RainbowFart;
 import eternal.fire.springbootrobot.Utils;
@@ -84,6 +85,18 @@ public class MainController {
             } else if (post.getMessage().endsWith("毒鸡汤")) {
                 log.info("开始毒鸡汤");
                 replyCqHttp(response, PoisonousChickenSoup.getSoup());
+            } else if (post.getMessage().startsWith("跟我学")) {
+                log.info("开始学习");
+                int ans = Learn.learn(post.getMessage());
+                if (ans == -1) {
+                    replyCqHttp(response, "???");
+                } else if (ans == 0) {
+                    replyCqHttp(response, "呐，我学会了哟，你呢w");
+                }
+            } else {
+                if (Learn.map.containsKey(post.getMessage())) {
+                    replyCqHttp(response,Learn.map.get(post.getMessage()));
+                }
             }
         }
     }

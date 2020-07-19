@@ -42,7 +42,10 @@
         <div class="col-4"><img class="img-responsive" id="hey" src="/img/hey.png" alt="heyhey"/></div>
     </div>
     <form action="#" th:action="@{/message}" th:object="${message}" method="post">
-        <p><input class="form-control" type="text" th:field="*{content}"/></p>
+        <input id="groupId" class="form-control" type="text" th:field="*{groupId}" placeholder="group id">
+        <label for="groupId"></label>
+        <input id="message" class="form-control" type="text" th:field="*{content}" placeholder="message"/>
+        <label for="message"></label>
         <div class="row">
             <div class="col-6">
                 <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-paper-plane"> Submit</i>

@@ -1,35 +1,41 @@
 package eternal.fire.springbootrobot.javabean;
 
 public class InfoToBan {
-    private long userId;
-    private int duration;
-
-    public long getUserId() {
-        return userId;
-    }
+    private Long groupId;
+    private Long userId;
+    private Integer duration;
 
     public InfoToBan() {
 
     }
 
-    public InfoToBan(long userId) {
-        this.userId = userId;
-    }
-
-    public InfoToBan(long userId, int duration) {
+    public InfoToBan(Long groupId, Long userId, Integer duration) {
+        this.groupId = groupId;
         this.userId = userId;
         this.duration = duration;
     }
 
-    public void setUserId(long userId) {
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }

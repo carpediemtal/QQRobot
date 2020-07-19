@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eternal.fire.springbootrobot.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,8 @@ public class Weather {
     private String info;
     private String infocode;
     private List<Forecasts> forecasts;
+    @Value("${info.groupId}")
+    private String groupId;
 
     public String getStatus() {
         return status;
@@ -129,7 +132,7 @@ public class Weather {
         log.info("正准备向群里播报天气");
         log.info("获得天气状况（字符串）");
         String result = generateString(httpClient);
-        Utils.sendGroupMessage(result);
+        Utils.sendGroupMessage(result, groupId);
         log.info("播报完毕");
     }
 

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eternal.fire.springbootrobot.javabean.CqHttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -18,13 +20,14 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
+@PropertySource("groupInfo.properties")
 public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
 
-    public static void sendGroupMessage(String message) throws URISyntaxException, IOException, InterruptedException {
+    public static void sendGroupMessage(String message, String groupId) throws URISyntaxException, IOException, InterruptedException {
         log.info("正准备构造HttpRequest");
-        String url = String.format("http://47.98.252.1:5700/send_group_msg?group_id=851736129&message=%s", message.replace(" ", "%20").replace("\n", "%0a"));// main:549594617 测试群：851736129
+        String url = String.format("http://47.98.252.1:5700/send_group_msg?group_id=%s&message=%s", groupId, message.replace(" ", "%20").replace("\n", "%0a"));
         log.info("构造好的url：{}", url);
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
                 .header("User-Agent", "Java HttpClient")
@@ -38,9 +41,9 @@ public class Utils {
         httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
-    public static void setGroupBan(long userId, int duration) throws URISyntaxException, IOException, InterruptedException {
+    public static void setGroupBan(long userId, int duration, String groupId) throws URISyntaxException, IOException, InterruptedException {
         log.info("正在准备构造HttpRequest");
-        String url = String.format("http://47.98.252.1:5700/set_group_ban?group_id=549594617&user_id=%d&duration=%d", userId, duration);
+        String url = String.format("http://47.98.252.1:5700/set_group_ban?group_id=%s&user_id=%d&duration=%d", groupId, userId, duration);
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
                 .header("User-Agent", "Java HttpClient")
                 .header("Accept", "*/*")

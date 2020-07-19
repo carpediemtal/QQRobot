@@ -8,6 +8,7 @@ import eternal.fire.springbootrobot.javabean.Message;
 import eternal.fire.springbootrobot.javabean.ValidateInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 public class PageController {
     private static final Logger log = LoggerFactory.getLogger(PageController.class);
 
+
     @GetMapping("/arina")
     public String index() {
         return "arina";
@@ -44,14 +46,14 @@ public class PageController {
     @PostMapping("/message")
     public String sendMessage(@ModelAttribute Message message) throws InterruptedException, IOException, URISyntaxException {
         log.info("成功获取到了要发送的message，即将发送");
-        Utils.sendGroupMessage(message.getContent());
+        Utils.sendGroupMessage(message.getContent(), message.getGroupId());
         return "sendMessage";
     }
 
     @GetMapping("/ban")
     public String showBanHtml(Model model) {
         log.info("侦测到对/ban的get请求，我必须做出回应");
-        model.addAttribute("information", new InfoToBan(502795405));
+        model.addAttribute("information", new InfoToBan());
         return "ban";
     }
 
@@ -59,7 +61,7 @@ public class PageController {
     public String ban(@ModelAttribute("information") InfoToBan information) throws InterruptedException, IOException, URISyntaxException {
         log.info("侦测到ban的请求，我必须做出回应");
         log.info("要ban的人是{}，时长{}", information.getUserId(), information.getDuration());
-        Utils.setGroupBan(information.getUserId(), information.getDuration());
+        Utils.setGroupBan(information.getUserId(), information.getDuration(), Long.toString(information.getGroupId()));
         log.info("ban完毕");
         return "ban";
     }

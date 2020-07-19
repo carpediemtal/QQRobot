@@ -2,6 +2,8 @@ package eternal.fire.springbootrobot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +14,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Component
+@PropertySource("groupInfo.properties")
 public class GoodNight {
     private static final Logger log = LoggerFactory.getLogger(GoodNight.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
+    @Value("${info.groupId}")
+    private String groupId;
 
     public String getWords() throws IOException {
         log.info("正在尝试从文本文件里随机抽取一行作为晚安语录");
@@ -32,7 +37,7 @@ public class GoodNight {
 
     public void broadcastGoodNight() throws IOException, InterruptedException, URISyntaxException {
         String words = getWords();
-        Utils.sendGroupMessage(words);
+        Utils.sendGroupMessage(words, groupId);
     }
 
     @Scheduled(fixedRate = 1000)

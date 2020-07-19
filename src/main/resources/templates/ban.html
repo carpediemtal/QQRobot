@@ -45,8 +45,12 @@
         <div class="col-5"><img src="/img/seeYou.png" id="see-you" alt="see you"/></div>
     </div>
     <form action="#" th:action="@{/ban}" th:object="${information}" method="post">
-        <p><input type="text" class="form-control" placeholder="qq" th:field="*{userId}"/></p>
-        <p><input type="text" class="form-control" placeholder="time (seconds)" th:field="*{duration}"/></p>
+        <input id="groupId" type="text" class="form-control" placeholder="group id" th:field="*{groupId}">
+        <label for="groupId"></label>
+        <input id="userId" type="text" class="form-control" placeholder="qq" th:field="*{userId}"/>
+        <label for="userId"></label>
+        <input id="time" type="text" class="form-control" placeholder="time (seconds)" th:field="*{duration}"/>
+        <label for="time"></label>
         <div class="row">
             <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-paper-plane"> submit</i>

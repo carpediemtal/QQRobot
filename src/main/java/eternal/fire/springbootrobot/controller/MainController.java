@@ -11,6 +11,7 @@ import eternal.fire.springbootrobot.javabean.Hitokoto;
 import eternal.fire.springbootrobot.javabean.PoisonousChickenSoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,6 +38,8 @@ public class MainController {
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
     private static boolean isRepeat = false;
     private final Map<Long, LocalDateTime> map = new HashMap<>();
+    @Value("${info.groupId}")
+    private String groupId;
     private int index = 0;
 
     @PostMapping("/")
@@ -73,7 +76,7 @@ public class MainController {
     private void repeat(String message) throws InterruptedException, IOException, URISyntaxException {
         log.info("进入复读模式");
         log.info("开始复读");
-        Utils.sendGroupMessage(message);
+        Utils.sendGroupMessage(message, groupId);
 
         if (message.equals("退出复读模式")) {
             log.info("退出复读模式");

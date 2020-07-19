@@ -28,6 +28,6 @@ public class Nmsl {
         log.info("正在用http client调用NMSL api");
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-        return httpResponse.body();
+        return httpResponse.body().replace(" ", "").replace("\n", "");
     }
 }

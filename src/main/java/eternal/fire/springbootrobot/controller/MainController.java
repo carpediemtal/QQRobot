@@ -12,9 +12,9 @@ import eternal.fire.springbootrobot.javabean.PoisonousChickenSoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@CrossOrigin("*")
+@PropertySource("classpath:groupInfo.properties")
 public class MainController {
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();

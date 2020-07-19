@@ -20,7 +20,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-@PropertySource("groupInfo.properties")
 public class Utils {
     private static final Logger log = LoggerFactory.getLogger(Utils.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();

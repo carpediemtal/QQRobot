@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 @Component
-@PropertySource("groupInfo.properties")
+@PropertySource("classpath:groupInfo.properties")
 public class GoodNight {
     private static final Logger log = LoggerFactory.getLogger(GoodNight.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();

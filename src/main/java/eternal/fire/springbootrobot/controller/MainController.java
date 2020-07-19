@@ -2,6 +2,7 @@ package eternal.fire.springbootrobot.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eternal.fire.springbootrobot.Nmsl;
 import eternal.fire.springbootrobot.RainbowFart;
 import eternal.fire.springbootrobot.Utils;
 import eternal.fire.springbootrobot.covid19.CovidData;
@@ -63,6 +64,9 @@ public class MainController {
             } else if (post.getMessage().equals("夸我")) {
                 log.info("开始彩虹屁");
                 replyCqHttp(response, RainbowFart.getRainbowFart());
+            } else if (post.getMessage().equals("骂我")) {
+                log.info("开始nmsl");
+                replyCqHttp(response, Nmsl.getContent());
             } else if (post.getMessage().equals("一言")) {
                 log.info("开始一言");
                 replyCqHttp(response, Hitokoto.getContent());

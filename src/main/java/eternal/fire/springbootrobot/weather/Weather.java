@@ -2,7 +2,7 @@ package eternal.fire.springbootrobot.weather;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eternal.fire.springbootrobot.Utils;
+import eternal.fire.springbootrobot.funcs.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

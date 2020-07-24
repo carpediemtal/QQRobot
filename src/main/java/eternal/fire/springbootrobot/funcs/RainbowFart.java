@@ -1,4 +1,4 @@
-package eternal.fire.springbootrobot;
+package eternal.fire.springbootrobot.funcs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class Nmsl {
+public class RainbowFart {
     private static final Logger log = LoggerFactory.getLogger(RainbowFart.class);
     private static final HttpClient httpClient = HttpClient.newBuilder().build();
 
-    public static String getContent() throws URISyntaxException, IOException, InterruptedException {
+    public static String getRainbowFart() throws URISyntaxException, IOException, InterruptedException {
         log.info("正在构造HttpRequest");
-        String url = "https://nmsl.shadiao.app/api.php?level=min";
+        String url = "https://chp.shadiao.app/api.php";
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
                 .header("User-Agent", "Java HttpClient")
                 .header("Accept", "*/*")
@@ -25,9 +25,9 @@ public class Nmsl {
                 .version(HttpClient.Version.HTTP_2)
                 .build();
 
-        log.info("正在用http client调用NMSL api");
+        log.info("正在用http client调用彩虹屁api");
         HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-        return httpResponse.body().replace(" ", "").replace("\n", "");
+        return httpResponse.body();
     }
 }

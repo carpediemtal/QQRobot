@@ -1,12 +1,10 @@
-package eternal.fire.springbootrobot;
+package eternal.fire.springbootrobot.funcs;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eternal.fire.springbootrobot.javabean.CqHttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>eternal.fire</groupId>
-    <artifactId>spring-boot-robot</artifactId>
-    <version>2.5.2-SNAPSHOT</version>
-    <name>spring-boot-robot</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>arina</artifactId>
+    <version>2.5.3-SNAPSHOT</version>
+    <name>arina</name>
+    <description>QQ robot based on cqhttp and spring boot</description>
 
     <properties>
         <java.version>14</java.version>

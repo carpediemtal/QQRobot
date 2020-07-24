@@ -338,7 +338,7 @@ public void resetMapAndIndex() {
 ```java
 package eternal.fire.springbootrobot;
 
-import org.slf4j.Logger;
+import eternal.fire.springbootrobot.funcs.Utils;import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -399,7 +399,7 @@ package eternal.fire.springbootrobot.weather;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eternal.fire.springbootrobot.Utils;
+import eternal.fire.springbootrobot.funcs.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -484,7 +484,7 @@ package eternal.fire.springbootrobot.weather;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eternal.fire.springbootrobot.Utils;
+import eternal.fire.springbootrobot.funcs.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

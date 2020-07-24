@@ -2,10 +2,10 @@ package eternal.fire.springbootrobot.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eternal.fire.springbootrobot.Learn;
-import eternal.fire.springbootrobot.Nmsl;
-import eternal.fire.springbootrobot.RainbowFart;
-import eternal.fire.springbootrobot.Utils;
+import eternal.fire.springbootrobot.funcs.Learn;
+import eternal.fire.springbootrobot.funcs.Nmsl;
+import eternal.fire.springbootrobot.funcs.RainbowFart;
+import eternal.fire.springbootrobot.funcs.Utils;
 import eternal.fire.springbootrobot.covid19.CovidData;
 import eternal.fire.springbootrobot.javabean.CqHttpPost;
 import eternal.fire.springbootrobot.javabean.CqHttpReply;
@@ -93,9 +93,17 @@ public class MainController {
                 } else if (ans == 0) {
                     replyCqHttp(response, "呐，我学会了哟，你呢w");
                 }
+            } else if (post.getMessage().startsWith("忘记")) {
+                log.info("学了就忘");
+                int ans = Learn.forget(post.getMessage());
+                if (ans == -1) {
+                    replyCqHttp(response, "没听说过啊");
+                } else {
+                    replyCqHttp(response,"ano..我好像...忘了点什么...");
+                }
             } else {
                 if (Learn.map.containsKey(post.getMessage())) {
-                    replyCqHttp(response,Learn.map.get(post.getMessage()));
+                    replyCqHttp(response, Learn.map.get(post.getMessage()));
                 }
             }
         }

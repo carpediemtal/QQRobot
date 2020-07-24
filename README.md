@@ -2,7 +2,7 @@
 基于酷Q和CQhttp插件用Spring Boot编写的qqRobot
 http://47.98.252.1:7000/arina
 
-以下内容摘自我的博客
+以下内容摘自我的博客:https://linjinming.gitee.io/2020/05/30/QQ%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/
 ---
 title: QQ聊天机器人
 date: 2020-05-30 09:39:14
@@ -84,6 +84,26 @@ Arina会重复你说的话。
 
 <img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrsncyjjj30cg0ixtaf.jpg"/>
 
+#### 彩虹屁
+
+回复关键字“夸xx”即可触发。
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggw782eeoxj30lx04baa3.jpg"/>
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggw786pk9hj30mg04m0sq.jpg"/>
+
+#### NMSL
+
+回复关键字“骂xx”即可触发。
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggw7926em0j30m3041q2v.jpg"/>
+
+#### 学习
+
+回复关键字“跟我学 XX YY”即可触发。
+
+<img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggw7gwizxbj30m108l0tb.jpg"/>
+
 #### Arina的个人页面
 
 <img src="http://ww1.sinaimg.cn/large/005VT09Qly1ggjrtglt2rj31hc0u0aco.jpg"/>
@@ -149,7 +169,27 @@ Arina需要在一个24小时不关机的电脑上运行，如果愿意自己的�
 
 ## 酷q在linux环境下的运行
 
-酷q在windows下可以简单的安装运行，但在linux下需要通过wine借助docker来运行。请参考https://github.com/CoolQ/docker-wine-coolq。
+酷q在windows下可以简单的安装运行，但在linux下需要通过wine借助docker来运行。
+
+基本用法：
+
+```bash
+$ docker pull richardchien/cqhttp:latest
+$ mkdir coolq  # 用于存储 酷Q 的程序文件
+$ docker run -ti --rm --name cqhttp-test \
+             -v $(pwd)/coolq:/home/user/coolq \  # 将宿主目录挂载到容器内用于持久化 酷Q 的程序文件
+             -p 9000:9000 \  # noVNC 端口，用于从浏览器控制 酷Q
+             -p 5700:5700 \  # CQHTTP 插件开放的端口
+             -e COOLQ_ACCOUNT=123456 \ # 要登录的 QQ 账号，可选但建议填
+             -e CQHTTP_POST_URL=http://example.com:8080 \  # 事件上报地址
+             -e CQHTTP_SERVE_DATA_FILES=yes \  # 允许通过 HTTP 接口访问 酷Q 数据文件
+             richardchien/cqhttp:latest
+```
+
+这部分请参考
+
+- https://github.com/CoolQ/docker-wine-coolq（原版镜像）
+- https://cqhttp.cc/docs/4.15/#/Docker（安装了cqhttp插件的镜像）
 
 ## 获取并配置图灵机器人api key
 
@@ -768,6 +808,160 @@ public class MyController {
 }
 ```
 
+### 彩虹屁
+
+```java
+package eternal.fire.springbootrobot;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+public class RainbowFart {
+    private static final Logger log = LoggerFactory.getLogger(RainbowFart.class);
+    private static final HttpClient httpClient = HttpClient.newBuilder().build();
+
+    public static String getRainbowFart() throws URISyntaxException, IOException, InterruptedException {
+        log.info("正在构造HttpRequest");
+        String url = "https://chp.shadiao.app/api.php";
+        HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
+                .header("User-Agent", "Java HttpClient")
+                .header("Accept", "*/*")
+                .timeout(Duration.ofSeconds(5))
+                .version(HttpClient.Version.HTTP_2)
+                .build();
+
+        log.info("正在用http client调用彩虹屁api");
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        return httpResponse.body();
+    }
+}
+```
+
+```java
+if (post.getMessage().startsWith("夸")) {
+    log.info("开始彩虹屁");
+    if (post.getMessage().equals("夸我")) {
+        replyCqHttp(response, RainbowFart.getRainbowFart());
+    } else {
+        String name = post.getMessage().substring(1);
+        log.info("要夸的人是{}", name);
+        replyCqHttp(response, RainbowFart.getRainbowFart().replace("你", name).replace("您", name));
+    }
+} 
+```
+
+实现思路：调用APIhttps://chp.shadiao.app/api.php获取彩虹屁内容并替换关键字，利用cqhttp的快速回复功能做出回复。
+
+### NMSL
+
+```java
+package eternal.fire.springbootrobot;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+public class Nmsl {
+    private static final Logger log = LoggerFactory.getLogger(RainbowFart.class);
+    private static final HttpClient httpClient = HttpClient.newBuilder().build();
+
+    public static String getContent() throws URISyntaxException, IOException, InterruptedException {
+        log.info("正在构造HttpRequest");
+        String url = "https://nmsl.shadiao.app/api.php?level=min";
+        HttpRequest httpRequest = HttpRequest.newBuilder(new URI(url))
+                .header("User-Agent", "Java HttpClient")
+                .header("Accept", "*/*")
+                .timeout(Duration.ofSeconds(5))
+                .version(HttpClient.Version.HTTP_2)
+                .build();
+
+        log.info("正在用http client调用NMSL api");
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        return httpResponse.body().replace(" ", "").replace("\n", "");
+    }
+}
+```
+
+```java
+if (post.getMessage().startsWith("骂")) {
+    log.info("开始nmsl");
+    if (post.getMessage().equals("骂我")) {
+        replyCqHttp(response, Nmsl.getContent());
+    } else {
+        String name = post.getMessage().substring(1);
+        replyCqHttp(response, Nmsl.getContent().replace("您", name).replace("你", name));
+    }
+}
+```
+
+实现思路和彩虹屁完全一致。
+
+### 学习
+
+```java
+package eternal.fire.springbootrobot;
+
+import eternal.fire.springbootrobot.controller.MainController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Learn {
+    public static final Map<String, String> map = new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(Learn.class);
+
+    public static int learn(String message) {
+        String[] args = message.split(" ");
+        log.info("获取到的内容是{}", Arrays.toString(args));
+        if (args.length < 3) {
+            return -1;
+        }
+        map.put(args[1], args[2]);
+        return 0;
+    }
+}
+```
+
+```java
+if (post.getMessage().startsWith("跟我学")) {
+    log.info("开始学习");
+    int ans = Learn.learn(post.getMessage());
+    if (ans == -1) {
+        replyCqHttp(response, "???");
+    } else if (ans == 0) {
+        replyCqHttp(response, "呐，我学会了哟，你呢w");
+    }
+} else {
+    if (Learn.map.containsKey(post.getMessage())) {
+        replyCqHttp(response,Learn.map.get(post.getMessage()));
+    }
+}
+```
+
+实现思路：Learn类内维护一个Map，用来存储键值对。每次接收到消息都去map里找是否存在相应的键值对。
+
+要想数据长生不老，可以把数据写到文件里，或者使用数据库，否则每次应用重启之后，数据都会消失。
+
 ## 参考资料
 
 Arina：http://47.98.252.1:7000/arina
@@ -779,6 +973,8 @@ cqhttp官方文档：https://cqhttp.cc/docs/4.15/#/
 通过wine在docker中运行酷q：https://github.com/CoolQ/docker-wine-coolq
 
 图灵机器人：http://www.turingapi.com/
+
+有意思的API：https://shadiao.app/
 
 
 

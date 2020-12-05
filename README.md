@@ -2,14 +2,7 @@
 基于酷Q和CQhttp插件用Spring Boot编写的qqRobot
 http://47.98.252.1:7000/arina
 
-以下内容摘自我的博客:https://linjinming.gitee.io/2020/05/30/QQ%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/
----
-title: QQ聊天机器人
-date: 2020-05-30 09:39:14
-tags:
-categories: Fun
-
----
+以下内容摘自我的博客:[QQ聊天机器人](https://linjinming.gitee.io/2020/05/30/QQ%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA/)
 
 # QQ聊天机器人-教程向
 
